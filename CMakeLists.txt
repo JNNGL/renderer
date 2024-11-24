@@ -9,5 +9,5 @@ include_directories(${CMAKE_SOURCE_DIR}/src)
 
 include_directories(${DEPS_DIR}/stb)
 
-file(GLOB_RECURSE CXX_SOURCE_FILES src/*.cpp)
+file(GLOB_RECURSE CXX_SOURCE_FILES src/*.cpp src/*.h)
 add_executable(renderer ${CXX_SOURCE_FILES})

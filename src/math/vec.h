@@ -32,19 +32,9 @@ public:
         return {x + t.x, y + t.x};
     }
     template <typename I>
-    auto operator+(I t) -> vec2<decltype(T{} + I{})> {
-        return {x + t, y + t};
-    }
-    template <typename I>
     vec2<T>& operator+=(vec2<I> t) {
         x += t.x;
         y += t.y;
-        return *this;
-    }
-    template <typename I>
-    vec2<T>& operator +=(I t) {
-        x += t;
-        y += t;
         return *this;
     }
 
@@ -53,35 +43,15 @@ public:
         return {x - t.x, y - t.y};
     }
     template <typename I>
-    auto operator-(I t) const -> vec2<decltype(T{} - I{})> {
-        return {x - t, y - t};
-    }
-    template <typename I>
     vec2<T>& operator-=(vec2<I> t) {
         x -= t.x;
         y -= t.y;
         return *this;
     }
-    template <typename I>
-    vec2<T>& operator-=(I t) {
-        x -= t;
-        y -= t;
-        return *this;
-    }
 
-    template <typename I>
-    auto operator*(vec2<I> t) const -> vec2<decltype(T{} * I{})> {
-        return {x * t.x, y * t.y};
-    }
     template <typename I>
     auto operator*(I t) const -> vec2<decltype(T{} * I{})> {
         return {x * t, y * t};
-    }
-    template <typename I>
-    vec2<T>& operator*=(vec2<I> t) {
-        x *= t.x;
-        y *= t.y;
-        return *this;
     }
     template <typename I>
     vec2<T>& operator*=(I t) {
@@ -91,19 +61,9 @@ public:
     }
 
     template <typename I>
-    auto operator/(vec2<I> t) const -> vec2<decltype(T{} / I{})> {
-        return {x / t.x, y / t.y};
-    }
-    template <typename I>
     auto operator/(I t) const -> vec2<decltype(T{} / I{})> {
         I invT = 1 / t;
-        return invT * (*this);
-    }
-    template <typename I>
-    vec2<T>& operator/=(vec2<I> t) {
-        x /= t.x;
-        y /= t.y;
-        return *this;
+        return {x * invT, y * invT};
     }
     template <typename I>
     vec2<T>& operator/=(I t) {
@@ -114,6 +74,11 @@ public:
 public:
     T x, y;
 };
+
+template <typename T, typename I>
+inline auto operator*(I i, vec2<T> t) -> vec2<decltype(I{} * T{})> {
+    return t * i;
+}
 
 template <typename T>
 inline vec2<T> abs(vec2<T> t) {
@@ -185,21 +150,10 @@ public:
         return {x + t.x, y + t.x, z + t.z};
     }
     template <typename I>
-    auto operator+(I t) -> vec3<decltype(T{} + I{})> {
-        return {x + t, y + t, z + t};
-    }
-    template <typename I>
     vec3<T>& operator+=(vec3<I> t) {
         x += t.x;
         y += t.y;
         z += t.z;
-        return *this;
-    }
-    template <typename I>
-    vec3<T>& operator +=(I t) {
-        x += t;
-        y += t;
-        z += t;
         return *this;
     }
 
@@ -208,38 +162,16 @@ public:
         return {x - t.x, y - t.y, z - t.z};
     }
     template <typename I>
-    auto operator-(I t) const -> vec3<decltype(T{} - I{})> {
-        return {x - t, y - t, z - t};
-    }
-    template <typename I>
     vec3<T>& operator-=(vec3<I> t) {
         x -= t.x;
         y -= t.y;
         z -= t.z;
         return *this;
     }
-    template <typename I>
-    vec3<T>& operator-=(I t) {
-        x -= t;
-        y -= t;
-        z -= t;
-        return *this;
-    }
 
-    template <typename I>
-    auto operator*(vec3<I> t) const -> vec3<decltype(T{} * I{})> {
-        return {x * t.x, y * t.y, z * t.z};
-    }
     template <typename I>
     auto operator*(I t) const -> vec3<decltype(T{} * I{})> {
         return {x * t, y * t, z * t};
-    }
-    template <typename I>
-    vec3<T>& operator*=(vec3<I> t) {
-        x *= t.x;
-        y *= t.y;
-        z *= t.z;
-        return *this;
     }
     template <typename I>
     vec3<T>& operator*=(I t) {
@@ -250,20 +182,9 @@ public:
     }
 
     template <typename I>
-    auto operator/(vec3<I> t) const -> vec3<decltype(T{} / I{})> {
-        return {x / t.x, y / t.y, z / t.z};
-    }
-    template <typename I>
     auto operator/(I t) const -> vec3<decltype(T{} / I{})> {
-        I invT = 1 / t;
-        return invT * (*this);
-    }
-    template <typename I>
-    vec3<T>& operator/=(vec3<I> t) {
-        x /= t.x;
-        y /= t.y;
-        z /= t.z;
-        return *this;
+        float invT = 1 / t;
+        return {x * invT, y * invT, z * invT};
     }
     template <typename I>
     vec3<T>& operator/=(I t) {
@@ -274,6 +195,11 @@ public:
 public:
     T x, y, z;
 };
+
+template <typename T, typename I>
+inline auto operator*(I i, vec3<T> t) -> vec3<decltype(I{} * T{})> {
+    return t * i;
+}
 
 template <typename T>
 inline vec3<T> abs(vec3<T> t) {
@@ -332,12 +258,12 @@ template <typename T, typename V>
 inline T abs_dot(V v0, V v1) {
     return std::abs(dot(v0, v1));
 }
-template <typename T, typename V>
-inline T length_sqr(V v) {
+template <typename V>
+inline auto length_sqr(V v) {
     return dot(v, v);
 }
-template <typename T, typename V>
-inline T length(V v) {
+template <typename V>
+inline auto length(V v) {
     return std::sqrt(length_sqr(v));
 }
 template <typename T, typename V>
