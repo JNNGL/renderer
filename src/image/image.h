@@ -47,6 +47,10 @@ public:
     int width() { return resolution.x; }
     int height() { return resolution.y; }
 
+    vec2i dimensions() {
+        return resolution;
+    }
+
 private:
     vec2i resolution;
     T* contents;

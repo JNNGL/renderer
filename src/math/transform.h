@@ -5,7 +5,7 @@
 
 class transform {
 public:
-    transform() = default;
+    transform() : m{}, mInv{} {}
     transform(matrix<4> t, matrix<4> tInv)
         : m(t), mInv(tInv) {}
     transform(matrix<4> t)
@@ -40,7 +40,7 @@ public:
         }
         T wp = m[3][0] * v.x + m[3][1] * v.y + m[3][2] * v.z + m[3][3] * w;
         vec3<decltype(T{} + float{})> vp{xp, yp, zp};
-        if (wp != 1) vp /= wp;
+        if (w != 0 && wp != 1) vp /= wp;
         return vp;
     }
     ray apply(const ray& r) const {

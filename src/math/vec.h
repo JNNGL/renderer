@@ -120,6 +120,7 @@ template <typename T>
 class vec3 {
 public:
     vec3() = default;
+    vec3(T t) : vec3(t, t, t) {}
     vec3(T x, T y, T z)
         : x(x), y(y), z(z) {}
 
